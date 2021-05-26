@@ -1,17 +1,21 @@
 <?php
 
 namespace Anax\View;
+use Magm19\Comment\CommentController;
 
 /**
  * View a specific question
  */
+$commentController = new CommentController();
 
 // Gather incoming variables and use default values if not set
 $item = isset($item) ? $item : null;
 
 // Create urls for navigation
 $urlToView = url("question");
-// var_dump($question);
+// var_dump($answerComments);
+// var_dump($this->di);
+$answerCount = 0;
 ?>
 
 <?php if ($question) : 
@@ -25,22 +29,34 @@ $urlToView = url("question");
             <a href="<?= $urlToAnswer ?>">Svara</a>
         </p>
     </div>
+    <?php foreach ($questionComments as $comment):?>
+        <div class="question-comment-wrap">
+            <p><?= $comment->body ?></p>
+            <p><?= $comment->user ?></p>
+        </div>
+    <?php endforeach; ?>
+    <?= $commentFormQuestion ?>
 <?php
-    // return;
 endif;
 ?>
 
 <?php if ($answers) : 
-// var_dump($answers);
     $urlToAnswer = url("answer/create/" . $question->id);
-    foreach ($answers as $answer) :
-        // var_dump($answer);
-?>
+    foreach ($answers as $answer) : ?>
     <div class="answer-wrap">
         <p><?= $answer->body ?></p>
+        <p><?= $answer->user ?></p>
+        <p><?= $answer->id?></p>
     </div>
-<?php
-    // return;
+<?php   foreach ($answerComments[$answerCount] as $comment):?>
+            <div class="question-comment-wrap">
+                <p><?= $comment->body ?></p>
+                <p><?= $comment->user ?></p>
+            </div>
+<?php   endforeach;
+        $answerCount++;
+        $commentForm = $commentController->createAnswerForm($this->di, $answer->id);
+        echo $commentForm;
     endforeach;
 endif;
 ?>

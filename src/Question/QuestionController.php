@@ -9,7 +9,9 @@ use Magm19\Question\HTMLForm\EditForm;
 use Magm19\Question\HTMLForm\DeleteForm;
 use Magm19\Question\HTMLForm\UpdateForm;
 use Magm19\Answer\Answer;
-
+use Magm19\Comment\Comment;
+use Magm19\Comment\HTMLForm\CreateCommentForm;
+use Magm19\Comment\HTMLForm\CreateAnswerCommentForm;
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
 // use Anax\Route\Exception\InternalErrorException;
@@ -147,17 +149,33 @@ class QuestionController implements ContainerInjectableInterface
         $page = $this->di->get("page");
         $question = new Question();
         $answer = new Answer();
+        $comment = new Comment();
+        $commentFormQuestion = new CreateCommentForm($this->di, $id);
+        $commentFormAnswer= new CreateAnswerCommentForm($this->di, $id);
 
         $question->setDb($this->di->get("dbqb"));
         $answer->setDb($this->di->get("dbqb"));
+        $comment->setDb($this->di->get("dbqb"));
+        $commentFormQuestion->check();
+        $commentFormAnswer->check();
 
         $question->find("id", $id);
         $allAnswers = $answer->findAllWhere("questionId=?", [$id]);
-        // $question->findAllWhere("user = ?", "test");
+        $questionComments = $comment->findAllWhere("parentId = ? AND parentIsAnswer = ?", [$id, 0]);
+        $answerComments = [];
+        // var_dump($allAnswers);
+        foreach ($allAnswers as $answer) {
+            $comments = $comment->findAllWhere("parentId = ? AND parentIsAnswer = ?", [$answer->id, 1]);
+            array_push($answerComments, $comments);
+        }
 
         $page->add("Question/view-one", [
             "question" => $question,
-            "answers" => $allAnswers
+            "answers" => $allAnswers,
+            "questionComments" => $questionComments,
+            "answerComments" => $answerComments,
+            "commentFormQuestion" => $commentFormQuestion->getHTML(),
+            "commentFormAnswer" => $commentFormAnswer->getHTML(),
         ]);
 
         return $page->render([

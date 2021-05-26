@@ -44,3 +44,17 @@ CREATE TABLE Answer (
     "created" TIMESTAMP,
     "updated" DATETIME
 );
+
+--
+-- Table Comment
+--
+DROP TABLE IF EXISTS Comment;
+CREATE TABLE Comment (
+    "id" INTEGER PRIMARY KEY NOT NULL,
+    "body" TEXT NOT NULL,
+    "user" TEXT NOT NULL,
+    "parentId" INTEGER NOT NULL,
+    "parentIsAnswer" BOOLEAN NOT NULL,
+    "created" TIMESTAMP,
+    "updated" DATETIME
+);
