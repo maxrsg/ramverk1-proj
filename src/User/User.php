@@ -58,4 +58,11 @@ class User extends ActiveRecordModel
         $this->find("username", $username);
         return password_verify($password, $this->password);
     }
+
+
+
+    public function getDataFromUsername($username)
+    {
+        return $this->find("username", $username);
+    }
 }

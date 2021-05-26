@@ -45,6 +45,7 @@ class HomeController implements ContainerInjectableInterface
     {
         $page = $this->di->get("page");
         $page->add('Page/Home');
+        // unset($_SESSION['user']);
 
         return $page->render(["title" => "Hem"]);
     }

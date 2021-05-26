@@ -13,13 +13,18 @@ if ($user) {
             "title" => "Första sidan, börja här.",
         ],
         [
+            "text" => "Frågor",
+            "url" => "question",
+            "title" => "Alla frågor"
+        ],
+        [
             "text" => "Om",
             "url" => "om",
             "title" => "Om denna webbplats.",
         ],
         [
             "text" => "Profil",
-            "url" => "user/login",
+            "url" => "user",
             "title" => "Gå till din profil",
         ],
     ];
@@ -29,6 +34,11 @@ if ($user) {
             "text" => "Hem",
             "url" => "",
             "title" => "Första sidan, börja här.",
+        ],
+        [
+            "text" => "Frågor",
+            "url" => "question",
+            "title" => "Alla frågor"
         ],
         [
             "text" => "Om",

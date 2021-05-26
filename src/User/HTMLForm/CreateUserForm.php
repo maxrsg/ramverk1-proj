@@ -22,12 +22,12 @@ class CreateUserForm extends FormModel
         $this->form->create(
             [
                 "id" => __CLASS__,
-                "legend" => "Create new user",
+                "legend" => "Skapa ny användare",
             ],
             [
                 "username" => [
                     "type"        => "text",
-                    "label"       => "Username",
+                    "label"       => "Användarnamn",
                     "validation" => ["not_empty"],
                 ],
 
@@ -39,13 +39,13 @@ class CreateUserForm extends FormModel
 
                 "password" => [
                     "type"        => "password",
-                    "label"       => "Password",
+                    "label"       => "Lösenord",
                     "validation" => ["not_empty"],
                 ],
 
                 "password-again" => [
                     "type"        => "password",
-                    "label"       => "Confirm password",
+                    "label"       => "Verifiera lösenord",
                     "validation" => [
                         "match" => "password",
                         "not_empty"
@@ -54,7 +54,7 @@ class CreateUserForm extends FormModel
 
                 "submit" => [
                     "type" => "submit",
-                    "value" => "Create",
+                    "value" => "Skapa",
                     "callback" => [$this, "callbackSubmit"]
                 ],
             ]
@@ -100,5 +100,17 @@ class CreateUserForm extends FormModel
 
         $this->form->addOutput("User was created.");
         return true;
+    }
+
+
+
+
+    /**
+     * Callback what to do if the form was successfully submitted, this
+     * happen when the submit callback method returns true.
+     */
+    public function callbackSuccess()
+    {
+        $this->di->get("response")->redirect("user/login")->send();
     }
 }

@@ -1,15 +1,14 @@
 <?php
 
-namespace Magm19\Question;
+namespace Magm19\Answer;
 
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
-use Magm19\Question\HTMLForm\CreateForm;
-use Magm19\Question\HTMLForm\EditForm;
-use Magm19\Question\HTMLForm\DeleteForm;
-use Magm19\Question\HTMLForm\UpdateForm;
-use Magm19\Answer\Answer;
-
+use Magm19\Answer\HTMLForm\CreateForm;
+use Magm19\Answer\HTMLForm\EditForm;
+use Magm19\Answer\HTMLForm\DeleteForm;
+use Magm19\Answer\HTMLForm\UpdateForm;
+use Magm19\Question\Question;
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
 // use Anax\Route\Exception\InternalErrorException;
@@ -17,7 +16,7 @@ use Magm19\Answer\Answer;
 /**
  * A sample controller to show how a controller class can be implemented.
  */
-class QuestionController implements ContainerInjectableInterface
+class AnswerController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
 
@@ -52,11 +51,11 @@ class QuestionController implements ContainerInjectableInterface
     public function indexActionGet() : object
     {
         $page = $this->di->get("page");
-        $question = new Question();
-        $question->setDb($this->di->get("dbqb"));
+        $answer = new Answer();
+        $answer->setDb($this->di->get("dbqb"));
 
-        $page->add("Question/view-all", [
-            "items" => $question->findAll(),
+        $page->add("answer/create", [
+            "items" => $answer->findAll(),
         ]);
 
         return $page->render([
@@ -71,14 +70,18 @@ class QuestionController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function createAction() : object
+    public function createAction(int $id) : object
     {
         $page = $this->di->get("page");
-        $form = new CreateForm($this->di);
+        $form = new CreateForm($this->di, $id);
         $form->check();
+        $question = new Question();
+        $question->setDb($this->di->get("dbqb"));
+        $question->find("id", $id);
 
-        $page->add("Question/create", [
+        $page->add("answer/create", [
             "form" => $form->getHTML(),
+            "question" => $question
         ]);
 
         return $page->render([
@@ -99,7 +102,7 @@ class QuestionController implements ContainerInjectableInterface
         $form = new DeleteForm($this->di);
         $form->check();
 
-        $page->add("Question/delete", [
+        $page->add("answer/delete", [
             "form" => $form->getHTML(),
         ]);
 
@@ -123,45 +126,12 @@ class QuestionController implements ContainerInjectableInterface
         $form = new UpdateForm($this->di, $id);
         $form->check();
 
-        $page->add("Question/update", [
+        $page->add("answer/update", [
             "form" => $form->getHTML(),
         ]);
 
         return $page->render([
             "title" => "Update an item",
-        ]);
-    }
-
-
-
-
-    /**
-     * Handler with form to update an item.
-     *
-     * @param int $id the id to update.
-     *
-     * @return object as a response object
-     */
-    public function viewOneAction(int $id) : object
-    {
-        $page = $this->di->get("page");
-        $question = new Question();
-        $answer = new Answer();
-
-        $question->setDb($this->di->get("dbqb"));
-        $answer->setDb($this->di->get("dbqb"));
-
-        $question->find("id", $id);
-        $allAnswers = $answer->findAllWhere("questionId=?", [$id]);
-        // $question->findAllWhere("user = ?", "test");
-
-        $page->add("Question/view-one", [
-            "question" => $question,
-            "answers" => $allAnswers
-        ]);
-
-        return $page->render([
-            "title" => $question->title ?? "Fråga",
         ]);
     }
 }

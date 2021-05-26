@@ -3,28 +3,45 @@
 namespace Anax\View;
 
 /**
- * View to create a new book.
+ * View a specific question
  */
-// Show all incoming variables/functions
-//var_dump(get_defined_functions());
-//echo showEnvironment(get_defined_vars());
 
 // Gather incoming variables and use default values if not set
 $item = isset($item) ? $item : null;
 
 // Create urls for navigation
-$urlToView = url("book");
-
+$urlToView = url("question");
 // var_dump($question);
-
 ?>
-<!-- <h1>Redigera fråga</h1> -->
 
-<?php if ($question) : ?>
+<?php if ($question) : 
+    $urlToAnswer = url("answer/create/" . $question->id);
+?>
     <h1><?= $question->title ?></h1>
-    <p><?= $question->body ?></p>
+    <div class="big-question-wrap">
+        <p><?= $question->body ?></p>
+        <p>Frågad av: <?= $question->user ?></p>
+        <p>
+            <a href="<?= $urlToAnswer ?>">Svara</a>
+        </p>
+    </div>
 <?php
-    return;
+    // return;
+endif;
+?>
+
+<?php if ($answers) : 
+// var_dump($answers);
+    $urlToAnswer = url("answer/create/" . $question->id);
+    foreach ($answers as $answer) :
+        // var_dump($answer);
+?>
+    <div class="answer-wrap">
+        <p><?= $answer->body ?></p>
+    </div>
+<?php
+    // return;
+    endforeach;
 endif;
 ?>
 

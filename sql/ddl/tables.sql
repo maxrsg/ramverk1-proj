@@ -15,7 +15,8 @@ CREATE TABLE User (
     "password" TEXT,
     "created" TIMESTAMP,
     "updated" DATETIME,
-    "deleted" DATETIME
+    "deleted" DATETIME,
+    "active" DATETIME
 );
 
 --
@@ -27,6 +28,19 @@ CREATE TABLE Question (
     "title" TEXT UNIQUE NOT NULL,
     "body" TEXT NOT NULL,
     "user" TEXT NOT NULL,
+    "created" TIMESTAMP,
+    "updated" DATETIME
+);
+
+--
+-- Table Answer
+--
+DROP TABLE IF EXISTS Answer;
+CREATE TABLE Answer (
+    "id" INTEGER PRIMARY KEY NOT NULL,
+    "body" TEXT NOT NULL,
+    "user" TEXT NOT NULL,
+    "questionId" INTEGER NOT NULL,
     "created" TIMESTAMP,
     "updated" DATETIME
 );

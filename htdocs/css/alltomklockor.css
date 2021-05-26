@@ -2,6 +2,7 @@
  * Stylesheet for site "Allt om klockor"
  */
 
+/* general styling */
 body {
     background-color: #fafafa;
     color: #303841;
@@ -12,9 +13,14 @@ h1 {
 }
 
 .inner-wrap-header {
-    background-color: #e8f1f5;
+    background-color: #fafafa;
     color: #004a7c;
-    border-bottom: 1px solid #3b3b3b;
+    padding: 0.5rem;
+    box-shadow: #0e0f0f1a 0px 10px 10px -10px;
+}
+
+.outer-wrap-main {
+    min-height: 700px;
 }
 
 /* Style for question boxes */
@@ -35,3 +41,13 @@ h1 {
     color: #004a7c;
 }
 
+/* single question view */
+.big-question-wrap {
+    border-bottom: 1px solid #000;
+    margin-bottom: 1rem;
+}
+
+.answer-wrap {
+    border: 1px solid #000;
+    margin-bottom: 1rem;
+}

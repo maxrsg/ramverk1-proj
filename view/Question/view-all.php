@@ -3,30 +3,28 @@
 namespace Anax\View;
 
 /**
- * View to display all books.
+ * View to display all questions.
  */
-// Show all incoming variables/functions
-//var_dump(get_defined_functions());
-//echo showEnvironment(get_defined_vars());
+
 
 // Gather incoming variables and use default values if not set
 $items = isset($items) ? $items : null;
 
 // Create urls for navigation
 $urlToCreate = url("question/create");
-$urlToDelete = url("question/delete");
 
 
 
 ?><h1>Alla frågor</h1>
 
+<?php if (isset($_SESSION["user"])) : ?>
 <p>
-    <a href="<?= $urlToCreate ?>">Create</a> | 
-    <a href="<?= $urlToDelete ?>">Delete</a>
+    <a href="<?= $urlToCreate ?>">Ställ ny fråga</a>
 </p>
+<?php endif; ?>
 
 <?php if (!$items) : ?>
-    <p>There are no items to show.</p>
+    <p>Det finns inga frågor 😢</p>
 <?php
     return;
 endif;

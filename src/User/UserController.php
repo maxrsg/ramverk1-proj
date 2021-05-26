@@ -54,12 +54,19 @@ class UserController implements ContainerInjectableInterface
     {
         $page = $this->di->get("page");
 
-        $page->add("anax/v2/article/default", [
-            "content" => "An index page",
-        ]);
+        if ($this->di->session->get("user")) {
+            $user = new User();
+            $user->setDb($this->di->get("dbqb"));
+            $userData = $user->getDataFromUsername($this->di->session->get("user"));
+        }
 
+
+        $page->add("user/Profile", [
+            "content" => "Profil",
+            "userData" => $userData ?? ""
+        ]);
         return $page->render([
-            "title" => "A index page",
+            "title" => "Din Profil"
         ]);
     }
 
@@ -80,8 +87,8 @@ class UserController implements ContainerInjectableInterface
         $form = new UserLoginForm($this->di);
         $form->check();
 
-        $page->add("anax/v2/article/default", [
-            "content" => $form->getHTML(),
+        $page->add("User/Login", [
+            "form" => $form->getHTML(),
         ]);
 
         return $page->render([
