@@ -1,6 +1,8 @@
 <?php
 
 namespace Anax\View;
+use Anax\TextFilter\TextFilter;
+
 
 /**
  * View to display all questions.
@@ -9,6 +11,7 @@ namespace Anax\View;
 
 // Gather incoming variables and use default values if not set
 $items = isset($items) ? $items : null;
+$filter = new TextFilter();
 
 // Create urls for navigation
 $urlToCreate = url("question/create");
@@ -35,7 +38,7 @@ endif;
         <div class="question-wrap">
             <h4><a href="<?= url("question/view-one/{$item->id}"); ?>"><?= $item->title ?></a></h4>
             <!-- <?= $item->title ?> -->
-            <p><?= $item->body ?></p>
+            <p><?= $filter->markdown($item->body) ?></p>
         </div>
     </tr>
     <?php endforeach; ?>

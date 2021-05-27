@@ -3,12 +3,14 @@
 namespace Anax\View;
 use Magm19\Comment\CommentController;
 use Magm19\User\UserController;
+use Anax\TextFilter\TextFilter;
 
 /**
  * View a specific question
  */
 $commentController = new CommentController();
 $userController = new UserController();
+$filter = new TextFilter();
 // Gather incoming variables and use default values if not set
 $item = isset($item) ? $item : null;
 
@@ -24,7 +26,7 @@ $answerCount = 0;
 ?>
     <h1><?= $question->title ?></h1>
     <div class="big-question-wrap">
-        <p><?= $question->body ?></p>
+        <p><?= $filter->markdown($question->body) ?></p>
         <?php foreach ($tags as $tag):?>
             <p><?= $tag->body ?></p>
         <?php endforeach; ?>
@@ -38,7 +40,7 @@ $answerCount = 0;
     </div>
     <?php foreach ($questionComments as $comment):?>
         <div class="question-comment-wrap">
-            <p><?= $comment->body ?></p>
+            <p><?= $filter->markdown($comment->body) ?></p>
             <p><?= $comment->user ?></p>
             <img src="<?= $userController->getGravatarLink($comment->user, $this->di); ?>">
         </div>
@@ -52,13 +54,13 @@ endif;
     $urlToAnswer = url("answer/create/" . $question->id);
     foreach ($answers as $answer) : ?>
     <div class="answer-wrap">
-        <p><?= $answer->body ?></p>
+        <p><?= $filter->markdown($answer->body) ?></p>
         <p><?= $answer->user ?></p>
         <img src="<?= $userController->getGravatarLink($answer->user, $this->di); ?>">
     </div>
 <?php   foreach ($answerComments[$answerCount] as $comment):?>
             <div class="question-comment-wrap">
-                <p><?= $comment->body ?></p>
+                <p><?= $filter->markdown($comment->body) ?></p>
                 <p><?= $comment->user ?></p>
                 <img src="<?= $userController->getGravatarLink($comment->user, $this->di); ?>">
             </div>
