@@ -9,6 +9,8 @@ use Magm19\Question\HTMLForm\EditForm;
 use Magm19\Question\HTMLForm\DeleteForm;
 use Magm19\Question\HTMLForm\UpdateForm;
 use Magm19\Answer\Answer;
+use Magm19\Tag\QuestionTag;
+use Magm19\Tag\Tag;
 use Magm19\Comment\Comment;
 use Magm19\Comment\HTMLForm\CreateCommentForm;
 use Magm19\Comment\HTMLForm\CreateAnswerCommentForm;
@@ -62,7 +64,7 @@ class QuestionController implements ContainerInjectableInterface
         ]);
 
         return $page->render([
-            "title" => "A collection of items",
+            "title" => "Alla frågor",
         ]);
     }
 
@@ -84,29 +86,7 @@ class QuestionController implements ContainerInjectableInterface
         ]);
 
         return $page->render([
-            "title" => "Create a item",
-        ]);
-    }
-
-
-
-    /**
-     * Handler with form to delete an item.
-     *
-     * @return object as a response object
-     */
-    public function deleteAction() : object
-    {
-        $page = $this->di->get("page");
-        $form = new DeleteForm($this->di);
-        $form->check();
-
-        $page->add("Question/delete", [
-            "form" => $form->getHTML(),
-        ]);
-
-        return $page->render([
-            "title" => "Delete an item",
+            "title" => "Skapa ny fråga",
         ]);
     }
 
@@ -149,29 +129,41 @@ class QuestionController implements ContainerInjectableInterface
         $page = $this->di->get("page");
         $question = new Question();
         $answer = new Answer();
+        $questionTag = new QuestionTag();
         $comment = new Comment();
         $commentFormQuestion = new CreateCommentForm($this->di, $id);
         $commentFormAnswer= new CreateAnswerCommentForm($this->di, $id);
 
         $question->setDb($this->di->get("dbqb"));
         $answer->setDb($this->di->get("dbqb"));
+        $questionTag->setDb($this->di->get("dbqb"));
         $comment->setDb($this->di->get("dbqb"));
         $commentFormQuestion->check();
         $commentFormAnswer->check();
 
         $question->find("id", $id);
-        $allAnswers = $answer->findAllWhere("questionId=?", [$id]);
+        $allAnswers = $answer->findAllWhere("questionId = ?", [$id]);
+        $allTagIds = $questionTag->findAllWhere("questionId = ?", $question->id);
         $questionComments = $comment->findAllWhere("parentId = ? AND parentIsAnswer = ?", [$id, 0]);
+
         $answerComments = [];
-        // var_dump($allAnswers);
         foreach ($allAnswers as $answer) {
             $comments = $comment->findAllWhere("parentId = ? AND parentIsAnswer = ?", [$answer->id, 1]);
             array_push($answerComments, $comments);
         }
 
+        $questionTags = [];
+        foreach ($allTagIds as $tagId) {
+            $tag = new Tag();
+            $tag->setDb($this->di->get("dbqb"));
+            $qTag = $tag->findWhere("id = ?", $tagId->tagId);
+            array_push($questionTags, $qTag);
+        }
+
         $page->add("Question/view-one", [
             "question" => $question,
             "answers" => $allAnswers,
+            "tags" => $questionTags,
             "questionComments" => $questionComments,
             "answerComments" => $answerComments,
             "commentFormQuestion" => $commentFormQuestion->getHTML(),

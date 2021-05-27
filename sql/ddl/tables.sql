@@ -25,11 +25,33 @@ CREATE TABLE User (
 DROP TABLE IF EXISTS Question;
 CREATE TABLE Question (
     "id" INTEGER PRIMARY KEY NOT NULL,
-    "title" TEXT UNIQUE NOT NULL,
+    "title" TEXT NOT NULL,
     "body" TEXT NOT NULL,
     "user" TEXT NOT NULL,
     "created" TIMESTAMP,
     "updated" DATETIME
+);
+
+--
+-- Table Tag
+--
+DROP TABLE IF EXISTS Tag;
+CREATE TABLE Tag (
+    "id" INTEGER PRIMARY KEY NOT NULL,
+    "body" TEXT NOT NULL,
+    "timesUsed" INTEGER DEFAULT 0
+);
+
+--
+-- Table Question_Tag
+--
+DROP TABLE IF EXISTS QuestionTag;
+CREATE TABLE QuestionTag (
+    "tagId" INTEGER NOT NULL,
+    "questionId" INTEGER NOT NULL,
+
+    FOREIGN KEY("tagId") REFERENCES Tag("id"),
+    FOREIGN KEY("questionId") REFERENCES Tag("id")
 );
 
 --

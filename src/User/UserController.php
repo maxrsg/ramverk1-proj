@@ -6,6 +6,7 @@ use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 use Magm19\User\HTMLForm\UserLoginForm;
 use Magm19\User\HTMLForm\CreateUserForm;
+// use Magm19\User\User;
 
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
@@ -99,6 +100,26 @@ class UserController implements ContainerInjectableInterface
 
 
     /**
+     * Logs out user and renders home page
+     *
+     * @return object
+     */
+    public function logoutAction() : object
+    {
+        $this->di->session->delete("user");
+        $page = $this->di->get("page");
+        $page->add("Page/Home", [
+            "logoutMessage" => "You have been logged out!",
+        ]);
+
+        return $page->render([
+            "title" => "A login page",
+        ]);
+    }
+
+
+
+    /**
      * Description.
      *
      * @param datatype $variable Description
@@ -120,5 +141,30 @@ class UserController implements ContainerInjectableInterface
         return $page->render([
             "title" => "A create user page",
         ]);
+    }
+
+
+
+    public function getGravatarLink($username, $di) : string
+    {
+        $user = new User();
+        $user->setDb($di->get("dbqb"));
+        $userObj = $user->find("username", $username);
+        $link = $this->getGravatar($userObj->email);
+
+        return $link;
+    }
+
+
+
+    /**
+     * @return string of gravatar image
+     */
+    private function getGravatar($email, $s = 80, $d = 'mp', $r = 'g')
+    {
+        $url = 'https://www.gravatar.com/avatar/';
+        $url .= md5(strtolower(trim($email)));
+        $url .= "?s=$s&d=$d&r=$r";
+        return $url;
     }
 }

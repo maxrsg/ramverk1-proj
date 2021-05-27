@@ -18,6 +18,11 @@ if ($user) {
             "title" => "Alla frågor"
         ],
         [
+            "text" => "Taggar",
+            "url" => "tags",
+            "title" => "Visa alla taggar",
+        ],
+        [
             "text" => "Om",
             "url" => "om",
             "title" => "Om denna webbplats.",
@@ -39,6 +44,11 @@ if ($user) {
             "text" => "Frågor",
             "url" => "question",
             "title" => "Alla frågor"
+        ],
+        [
+            "text" => "Taggar",
+            "url" => "tags",
+            "title" => "Visa alla taggar",
         ],
         [
             "text" => "Om",
