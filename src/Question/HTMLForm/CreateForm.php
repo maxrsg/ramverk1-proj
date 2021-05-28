@@ -3,7 +3,7 @@
 namespace Magm19\Question\HTMLForm;
 
 use Anax\HTMLForm\FormModel;
-use Psr\Container\ContainerInterface;
+use \Psr\Container\ContainerInterface;
 use Magm19\Question\Question;
 use Magm19\Tag\Tag;
 use Magm19\Tag\QuestionTag;
@@ -99,7 +99,7 @@ class CreateForm extends FormModel
      * create a new tag
      * @param value string name of the new tag
      */
-    protected function createTag($value, $questionId)
+    protected function createTag($value)
     {
         $allTags = $this->getAllTags();
         $tag = new Tag();
@@ -151,12 +151,12 @@ class CreateForm extends FormModel
         $this->questionId = $question->id;
 
         $newTagValue = $this->form->value("newTags");
-        var_dump($newTagValue);
+
         if (!empty($newTagValue)) {
             $newTagList = explode(',', $newTagValue);
             foreach ($newTagList as $tag) {
                 $tagId = $this->createTag(trim($tag), $question->id);
-                if ($tagId != null) {
+                if ($tagId !== null) {
                     $this->addTagToQuestion($question->id, $tagId);
                 }
             }
