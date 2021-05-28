@@ -4,6 +4,8 @@ namespace Magm19\Home;
 
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
+// use Magm19\Question\Question;
+// use Magm19\Tag\Tag;
 
 class HomeController implements ContainerInjectableInterface
 {
@@ -45,7 +47,8 @@ class HomeController implements ContainerInjectableInterface
     {
         $page = $this->di->get("page");
         $page->add('Page/Home');
-        // unset($_SESSION['user']);
+        // $question = new Question();
+
 
         return $page->render(["title" => "Hem"]);
     }

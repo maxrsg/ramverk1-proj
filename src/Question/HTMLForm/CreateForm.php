@@ -155,7 +155,7 @@ class CreateForm extends FormModel
         if (!empty($newTagValue)) {
             $newTagList = explode(',', $newTagValue);
             foreach ($newTagList as $tag) {
-                $tagId = $this->createTag(trim($tag), $question->id);
+                $tagId = $this->createTag(trim($tag));
                 if ($tagId !== null) {
                     $this->addTagToQuestion($question->id, $tagId);
                 }
