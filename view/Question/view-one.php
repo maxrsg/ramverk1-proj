@@ -12,6 +12,7 @@ $commentController = new CommentController();
 $userController = new UserController();
 $filter = new TextFilter();
 $urlToView = url("question");
+$urlToUser = url("user/view");
 $answerCount = 0;
 ?>
 
@@ -34,7 +35,9 @@ $answerCount = 0;
             <p><?= $question->created ?></p>
             <div class="userbox-wrap">
                 <img src="<?= $userController->getGravatarLink($question->user, $this->di, 40); ?>">
-                <p><?= $question->user ?></p>
+                <p>
+                    <a href="<?= $urlToUser . "/" . $question->user?>"><?= $question->user ?></a>
+                </p>
             </div>
         </div>
     </div>
@@ -51,7 +54,9 @@ $answerCount = 0;
             <div class="comment-footer">
                 <div class="comment-userbox-wrap userbox-wrap">
                     <img src="<?= $userController->getGravatarLink($comment->user, $this->di, 40); ?>">
-                    <p><?= $comment->user ?></p>
+                    <p>
+                        <a href="<?= $urlToUser . "/" . $comment->user?>"><?= $comment->user ?></a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -65,7 +70,7 @@ endif;
 
 <?php if ($answers) : 
     foreach ($answers as $answer) : ?>
-    <div class="big-question-wrap">
+    <div class="big-question-wrap" id="<?= "question-" . $question->id . "-answer-" . $answer->id ?>">
         <div class="question-content">
             <p><?= $filter->markdown($answer->body) ?></p>
         </div>
@@ -73,7 +78,9 @@ endif;
             <p><?= $question->created ?></p>
             <div class="userbox-wrap">
                 <img src="<?= $userController->getGravatarLink($answer->user, $this->di, 40); ?>">
-                <p><?= $answer->user ?></p>
+                <p>
+                    <a href="<?= $urlToUser . "/" . $answer->user?>"><?= $answer->user ?></a>
+                </p>
             </div>
         </div>
     </div>
@@ -83,7 +90,9 @@ endif;
                 <div class="comment-footer">
                     <div class="comment-userbox-wrap userbox-wrap">
                         <img src="<?= $userController->getGravatarLink($comment->user, $this->di, 40); ?>">
-                        <p><?= $comment->user ?></p>
+                        <p>
+                            <a href="<?= $urlToUser . "/" . $comment->user?>"><?= $comment->user ?></a>
+                        </p>
                     </div>
                 </div>
             </div>

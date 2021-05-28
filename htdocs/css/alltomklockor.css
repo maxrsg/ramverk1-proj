@@ -270,3 +270,16 @@ input[type=submit]:hover {
 .all-tags-wrap .tag-wrap p {
     min-width: 100%;
 }
+
+
+/* footer */
+.outer-wrap-footer {
+    background-color: #fff;
+    border-top: 6px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(90deg, rgba(154,230,180,1) 0%, rgba(72,187,120,1) 50%, rgba(34,84,61,1) 100%);
+}
+
+.inner-wrap-footer {
+    background-color: #fff;
+}

@@ -7,7 +7,9 @@ use Anax\Commons\ContainerInjectableTrait;
 use Magm19\User\HTMLForm\UserLoginForm;
 use Magm19\User\HTMLForm\CreateUserForm;
 use Magm19\User\HTMLForm\UpdateUserForm;
-// use Magm19\User\User;
+use Magm19\Question\Question;
+use Magm19\Answer\Answer;
+use Magm19\Comment\Comment;
 
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
@@ -184,11 +186,35 @@ class UserController implements ContainerInjectableInterface
 
 
 
-    public function viewAction($id) : object
+    public function viewAction($userId) : object
     {
         $page = $this->di->get("page");
         $user = new User();
+        $question = new Question();
+        $answer = new Answer();
+        $comment = new Comment();
+
+        $user->setDb($this->di->get("dbqb"));
+        $question->setDb($this->di->get("dbqb"));
+        $answer->setDb($this->di->get("dbqb"));
+        $comment->setDb($this->di->get("dbqb"));
+
+        if (is_numeric($userId)) {
+            $user = $user->find("id", $userId);
+        } else {
+            $user = $user->findWhere("username = ?", $userId);
+        }
+
+        $questions = $question->findAllWhere("user = ?", $user->username);
+        $answers = $answer->findAllWhere("user = ?", $user->username);
+        $comments = $comment->findAllWhere("user = ?", $user->username);
+
         $page->add("User/view", [
+            "username" => $user->username,
+            "created" => $user->created,
+            "questions" => $questions,
+            "answers" => $answers,
+            "comments" => $comments,
         ]);
 
 

@@ -34,20 +34,6 @@ class QuestionController implements ContainerInjectableInterface
 
 
 
-    // /**
-    //  * The initialize method is optional and will always be called before the
-    //  * target method/action. This is a convienient method where you could
-    //  * setup internal properties that are commonly used by several methods.
-    //  *
-    //  * @return void
-    //  */
-    // public function initialize() : void
-    // {
-    //     ;
-    // }
-
-
-
     /**
      * Show all items.
      *
@@ -80,40 +66,20 @@ class QuestionController implements ContainerInjectableInterface
         $page = $this->di->get("page");
         $form = new CreateForm($this->di);
         $form->check();
+        $user = $this->di->session->get("user");
 
-        $page->add("Question/create", [
-            "form" => $form->getHTML(),
-        ]);
+        if(isset($user)) {
+            $page->add("Question/create", [
+                "form" => $form->getHTML(),
+            ]);
+        } else {
+            return $this->indexActionGet();
+        }
 
         return $page->render([
             "title" => "Skapa ny fråga",
         ]);
     }
-
-
-
-    /**
-     * Handler with form to update an item.
-     *
-     * @param int $id the id to update.
-     *
-     * @return object as a response object
-     */
-    public function updateAction(int $id) : object
-    {
-        $page = $this->di->get("page");
-        $form = new UpdateForm($this->di, $id);
-        $form->check();
-
-        $page->add("Question/update", [
-            "form" => $form->getHTML(),
-        ]);
-
-        return $page->render([
-            "title" => "Update an item",
-        ]);
-    }
-
 
 
 
