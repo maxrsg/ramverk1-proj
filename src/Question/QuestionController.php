@@ -118,9 +118,9 @@ class QuestionController implements ContainerInjectableInterface
 
 
     /**
-     * Handler with form to update an item.
+     * view one question with all answers/comments/tags
      *
-     * @param int $id the id to update.
+     * @param int $id the id of the question.
      *
      * @return object as a response object
      */

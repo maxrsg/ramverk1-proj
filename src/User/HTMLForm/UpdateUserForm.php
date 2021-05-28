@@ -9,25 +9,29 @@ use Magm19\User\User;
 /**
  * Example of FormModel implementation.
  */
-class CreateUserForm extends FormModel
+class UpdateUserForm extends FormModel
 {
+
+    private $user;
     /**
      * Constructor injects with DI container.
      *
      * @param Psr\Container\ContainerInterface $di a service container
      */
-    public function __construct(ContainerInterface $di)
+    public function __construct(ContainerInterface $di, $id)
     {
         parent::__construct($di);
+        $this->user = $this->getItemDetails($id);
         $this->form->create(
             [
                 "id" => __CLASS__,
-                "legend" => "Skapa ny användare",
+                "legend" => "Updatera användare",
             ],
             [
                 "username" => [
                     "type"        => "text",
                     "label"       => "Användarnamn",
+                    "value" => $this->user->username,
                     "validation" => [
                         "not_empty",
                         "custom_test" => [
@@ -43,26 +47,26 @@ class CreateUserForm extends FormModel
                     "type"        => "email",
                     "label"       => "Email",
                     "validation" => ["not_empty"],
+                    "value" => $this->user->email
                 ],
 
                 "password" => [
                     "type"        => "password",
-                    "label"       => "Lösenord",
-                    "validation" => ["not_empty"],
-                ],
-
-                "password-again" => [
-                    "type"        => "password",
-                    "label"       => "Verifiera lösenord",
+                    "label"       => "Skriv in ditt Lösenord för att verifiera ändringarna",
                     "validation" => [
-                        "match" => "password",
-                        "not_empty"
+                        "not_empty",
+                        "custom_test" => [
+                            "message" => "Lösenordet stämmer inte!",
+                            "test" => function ($value) {
+                                return $this->verifyPassword($this->user->username, $value);
+                            }
+                        ]
                     ],
                 ],
 
                 "submit" => [
                     "type" => "submit",
-                    "value" => "Skapa",
+                    "value" => "Spara",
                     "callback" => [$this, "callbackSubmit"]
                 ],
             ]
@@ -82,34 +86,19 @@ class CreateUserForm extends FormModel
         // Get values from the submitted form
         $username      = $this->form->value("username");
         $email         = $this->form->value("email");
-        $password      = $this->form->value("password");
-        $passwordAgain = $this->form->value("password-again");
 
-        // Check password matches
-        if ($password !== $passwordAgain ) {
-            $this->form->rememberValues();
-            $this->form->addOutput("Password did not match.");
-            return false;
-        }
 
-        // Save to database
-        // $db = $this->di->get("dbqb");
-        // $password = password_hash($password, PASSWORD_DEFAULT);
-        // $db->connect()
-        //    ->insert("User", ["username", "email", "password"])
-        //    ->execute([$username, $email, $password]);
         $user = new User();
         $user->setDb($this->di->get("dbqb"));
+        $user->find("id", $this->user->id);
         $user->username = $username;
         $user->email = $email;
-        $user->created = date("Y-m-d H:i:s");
-        $user->setPassword($password);
+        $user->updated = date("Y-m-d H:i:s");
         $user->save();
 
         $this->form->addOutput("User was created.");
         return true;
     }
-
 
 
 
@@ -119,6 +108,32 @@ class CreateUserForm extends FormModel
      */
     public function callbackSuccess()
     {
-        $this->di->get("response")->redirect("user/login")->send();
+        $this->di->session->delete("user");
+        $this->di->get("response")->redirect("user")->send();
+    }
+
+
+
+    /**
+     * Get details on item to load form with.
+     *
+     * @param integer $id get details on item with id.
+     *
+     * @return Question
+     */
+    public function getItemDetails($id) : object
+    {
+        $user = new User();
+        $user->setDb($this->di->get("dbqb"));
+        $user->find("id", $id);
+        return $user;
+    }
+
+
+    private function verifyPassword($username, $password)
+    {
+        $user = new User();
+        $user->setDb($this->di->get("dbqb"));
+        return $user->verifyPassword($username, $password);
     }
 }

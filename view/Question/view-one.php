@@ -24,7 +24,9 @@ $answerCount = 0;
             <p><?= $filter->markdown($question->body) ?></p>
             <div class="tag-wrap">
                 <?php foreach ($tags as $tag):?>
-                    <p class="tag"><?= $tag->body ?></p>
+                    <p class="tag">
+                        <a href="tags/tag/<?= $tag->id ?>"><?= $tag->body ?></a>
+                    </p>
                 <?php endforeach; ?>
             </div>
         </div>

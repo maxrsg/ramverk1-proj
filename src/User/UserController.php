@@ -6,6 +6,7 @@ use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 use Magm19\User\HTMLForm\UserLoginForm;
 use Magm19\User\HTMLForm\CreateUserForm;
+use Magm19\User\HTMLForm\UpdateUserForm;
 // use Magm19\User\User;
 
 // use Anax\Route\Exception\ForbiddenException;
@@ -54,6 +55,8 @@ class UserController implements ContainerInjectableInterface
     public function indexActionGet() : object
     {
         $page = $this->di->get("page");
+        $user = $this->di->session->get("user");
+        $isLoggedIn = isset($user);
 
         if ($this->di->session->get("user")) {
             $user = new User();
@@ -61,11 +64,16 @@ class UserController implements ContainerInjectableInterface
             $userData = $user->getDataFromUsername($this->di->session->get("user"));
         }
 
+        if ($isLoggedIn) {
+            $page->add("user/Profile", [
+                "content" => "Profil",
+                "userData" => $userData ?? "",
+                "isLoggedIn"=> $isLoggedIn,
+            ]);
+        } else {
+            return $this->loginAction();
+        }
 
-        $page->add("user/Profile", [
-            "content" => "Profil",
-            "userData" => $userData ?? ""
-        ]);
         return $page->render([
             "title" => "Din Profil"
         ]);
@@ -93,7 +101,7 @@ class UserController implements ContainerInjectableInterface
         ]);
 
         return $page->render([
-            "title" => "A login page",
+            "title" => "Logga in",
         ]);
     }
 
@@ -113,7 +121,7 @@ class UserController implements ContainerInjectableInterface
         ]);
 
         return $page->render([
-            "title" => "A login page",
+            "title" => "Du har loggats ut",
         ]);
     }
 
@@ -139,9 +147,56 @@ class UserController implements ContainerInjectableInterface
         ]);
 
         return $page->render([
+            "title" => "Skapa användare",
+        ]);
+    }
+
+
+
+    /**
+     * Description.
+     *
+     * @param datatype $variable Description
+     *
+     * @throws Exception
+     *
+     * @return object as a response object
+     */
+    public function updateAction($id) : object
+    {
+        $page = $this->di->get("page");
+        $form = new UpdateUserForm($this->di, $id);
+        $form->check();
+        $user = $this->di->session->get("user");
+
+        if(isset($user)) {
+            $page->add("anax/v2/article/default", [
+                "content" => $form->getHTML(),
+            ]);
+        } else {
+            return $this->loginAction();
+        }
+
+        return $page->render([
+            "title" => "Uppdatera användare",
+        ]);
+    }
+
+
+
+    public function viewAction($id) : object
+    {
+        $page = $this->di->get("page");
+        $user = new User();
+        $page->add("User/view", [
+        ]);
+
+
+        return $page->render([
             "title" => "A create user page",
         ]);
     }
+
 
 
 
