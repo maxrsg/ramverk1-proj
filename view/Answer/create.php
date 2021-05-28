@@ -1,29 +1,24 @@
 <?php
 
 namespace Anax\View;
+use Anax\TextFilter\TextFilter;
 
 /**
  * View to create a new book.
  */
-// Show all incoming variables/functions
-//var_dump(get_defined_functions());
-//echo showEnvironment(get_defined_vars());
 
-// Gather incoming variables and use default values if not set
-$items = isset($items) ? $items : null;
-
-// Create urls for navigation
+$filter = new TextFilter();
 $urlBackToQuestion = url("question/view-one/" . $question->id);
 
-// var_dump($question);
-
+if ($isLoggedIn) :
 ?><h1>Svara på frågan: <?= $question->title ?></h1>
 
 <div class="question-to-be-asnwered-wrap">
-    <?= $question->body ?>
+    <?= $filter->markdown($question->body) ?>
 </div>
 <?= $form ?>
 
+<?php endif; ?>
 <p>
     <a href="<?= $urlBackToQuestion ?>">Tillbaka till frågan</a>
 </p>

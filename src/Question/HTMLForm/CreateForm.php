@@ -35,12 +35,20 @@ class CreateForm extends FormModel
                 "title" => [
                     "type" => "text",
                     "label" => "Titel",
-                    "validation" => ["not_empty"],
+                    "validation" => [
+                        "not_empty",
+                        "custom_test" => [
+                            "message" => "Titel kan inte vara längre än 128 bokstäver.",
+                            "test" => function ($value) {
+                                return strlen($value) <= 128;
+                            }
+                        ]
+                    ],
                 ],
 
                 "body" => [
                     "type" => "textarea",
-                    "label" => "Text",
+                    "label" => "Text(markdown)",
                     "validation" => ["not_empty"],
                 ],
 

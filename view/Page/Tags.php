@@ -8,6 +8,8 @@ namespace Anax\View;
 
 <?php foreach ($tags as $tag) : ?>
 
-    <p><?= $tag->body ?></p>
+    <div class="tag-wrap">
+        <p class="tag"><?= $tag->body ?></p>
+    </div>
 
 <?php endforeach; ?>

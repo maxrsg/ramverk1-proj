@@ -133,6 +133,7 @@ class QuestionController implements ContainerInjectableInterface
         $comment = new Comment();
         $commentFormQuestion = new CreateCommentForm($this->di, $id);
         $commentFormAnswer= new CreateAnswerCommentForm($this->di, $id);
+        $user = $this->di->session->get("user");
 
         $question->setDb($this->di->get("dbqb"));
         $answer->setDb($this->di->get("dbqb"));
@@ -145,6 +146,7 @@ class QuestionController implements ContainerInjectableInterface
         $allAnswers = $answer->findAllWhere("questionId = ?", [$id]);
         $allTagIds = $questionTag->findAllWhere("questionId = ?", $question->id);
         $questionComments = $comment->findAllWhere("parentId = ? AND parentIsAnswer = ?", [$id, 0]);
+        $isLoggedIn = isset($user);
 
         $answerComments = [];
         foreach ($allAnswers as $answer) {
@@ -168,6 +170,7 @@ class QuestionController implements ContainerInjectableInterface
             "answerComments" => $answerComments,
             "commentFormQuestion" => $commentFormQuestion->getHTML(),
             "commentFormAnswer" => $commentFormAnswer->getHTML(),
+            "isLoggedIn" => $isLoggedIn,
         ]);
 
         return $page->render([

@@ -78,10 +78,13 @@ class AnswerController implements ContainerInjectableInterface
         $question = new Question();
         $question->setDb($this->di->get("dbqb"));
         $question->find("id", $id);
+        $user = $this->di->session->get("user");
+        $isLoggedIn = isset($user);
 
         $page->add("answer/create", [
             "form" => $form->getHTML(),
-            "question" => $question
+            "question" => $question,
+            "isLoggedIn" => $isLoggedIn,
         ]);
 
         return $page->render([

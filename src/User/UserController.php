@@ -145,12 +145,12 @@ class UserController implements ContainerInjectableInterface
 
 
 
-    public function getGravatarLink($username, $di) : string
+    public function getGravatarLink($username, $di, $size = 80) : string
     {
         $user = new User();
         $user->setDb($di->get("dbqb"));
         $userObj = $user->find("username", $username);
-        $link = $this->getGravatar($userObj->email);
+        $link = $this->getGravatar($userObj->email, $size);
 
         return $link;
     }

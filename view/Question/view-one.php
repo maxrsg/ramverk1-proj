@@ -11,63 +11,86 @@ use Anax\TextFilter\TextFilter;
 $commentController = new CommentController();
 $userController = new UserController();
 $filter = new TextFilter();
-// Gather incoming variables and use default values if not set
-$item = isset($item) ? $item : null;
-
-// Create urls for navigation
 $urlToView = url("question");
-// var_dump($answerComments);
-// var_dump($tags);
 $answerCount = 0;
 ?>
 
-<?php if ($question) : 
+<?php if ($question) :
     $urlToAnswer = url("answer/create/" . $question->id);
 ?>
-    <h1><?= $question->title ?></h1>
+    <h1 class="heading"><?= $question->title ?></h1>
     <div class="big-question-wrap">
-        <p><?= $filter->markdown($question->body) ?></p>
-        <?php foreach ($tags as $tag):?>
-            <p><?= $tag->body ?></p>
-        <?php endforeach; ?>
-        <div class="userbox-wrap">
-            <p>Frågad av: <?= $question->user ?></p>
-            <img src="<?= $userController->getGravatarLink($question->user, $this->di); ?>">
+        <div class="question-content">
+            <p><?= $filter->markdown($question->body) ?></p>
+            <div class="tag-wrap">
+                <?php foreach ($tags as $tag):?>
+                    <p class="tag"><?= $tag->body ?></p>
+                <?php endforeach; ?>
+            </div>
         </div>
-        <p>
-            <a href="<?= $urlToAnswer ?>">Svara</a>
-        </p>
+        <div class="userbox-footer">
+            <p><?= $question->created ?></p>
+            <div class="userbox-wrap">
+                <img src="<?= $userController->getGravatarLink($question->user, $this->di, 40); ?>">
+                <p><?= $question->user ?></p>
+            </div>
+        </div>
     </div>
-    <?php foreach ($questionComments as $comment):?>
+    <?php if ($isLoggedIn) : ?>
+    <div class="answer-btn-wrap">
+        <div>
+            <a href="<?= $urlToAnswer ?>"> Svara </a>
+        </div>
+    </div>
+    <?php endif;
+        foreach ($questionComments as $comment):?>
         <div class="question-comment-wrap">
             <p><?= $filter->markdown($comment->body) ?></p>
-            <p><?= $comment->user ?></p>
-            <img src="<?= $userController->getGravatarLink($comment->user, $this->di); ?>">
+            <div class="comment-footer">
+                <div class="comment-userbox-wrap userbox-wrap">
+                    <img src="<?= $userController->getGravatarLink($comment->user, $this->di, 40); ?>">
+                    <p><?= $comment->user ?></p>
+                </div>
+            </div>
         </div>
     <?php endforeach; ?>
-    <?= $commentFormQuestion ?>
+    <?php if ($isLoggedIn) : ?>
+        <?= $commentFormQuestion ?>
+    <?php endif; ?>
 <?php
 endif;
 ?>
 
 <?php if ($answers) : 
-    $urlToAnswer = url("answer/create/" . $question->id);
     foreach ($answers as $answer) : ?>
-    <div class="answer-wrap">
-        <p><?= $filter->markdown($answer->body) ?></p>
-        <p><?= $answer->user ?></p>
-        <img src="<?= $userController->getGravatarLink($answer->user, $this->di); ?>">
+    <div class="big-question-wrap">
+        <div class="question-content">
+            <p><?= $filter->markdown($answer->body) ?></p>
+        </div>
+        <div class="userbox-footer">
+            <p><?= $question->created ?></p>
+            <div class="userbox-wrap">
+                <img src="<?= $userController->getGravatarLink($answer->user, $this->di, 40); ?>">
+                <p><?= $answer->user ?></p>
+            </div>
+        </div>
     </div>
 <?php   foreach ($answerComments[$answerCount] as $comment):?>
             <div class="question-comment-wrap">
                 <p><?= $filter->markdown($comment->body) ?></p>
-                <p><?= $comment->user ?></p>
-                <img src="<?= $userController->getGravatarLink($comment->user, $this->di); ?>">
+                <div class="comment-footer">
+                    <div class="comment-userbox-wrap userbox-wrap">
+                        <img src="<?= $userController->getGravatarLink($comment->user, $this->di, 40); ?>">
+                        <p><?= $comment->user ?></p>
+                    </div>
+                </div>
             </div>
 <?php   endforeach;
         $answerCount++;
         $commentForm = $commentController->createAnswerForm($this->di, $answer->id);
-        echo $commentForm;
+        if ($isLoggedIn) {
+            echo $commentForm;
+        }
     endforeach;
 endif;
 ?>
