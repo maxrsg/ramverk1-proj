@@ -67,7 +67,7 @@ class UserController implements ContainerInjectableInterface
         }
 
         if ($isLoggedIn) {
-            $page->add("user/Profile", [
+            $page->add("User/Profile", [
                 "content" => "Profil",
                 "userData" => $userData ?? "",
                 "isLoggedIn" => $isLoggedIn,

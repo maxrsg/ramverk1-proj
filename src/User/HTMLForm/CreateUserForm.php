@@ -28,14 +28,15 @@ class CreateUserForm extends FormModel
                 "username" => [
                     "type"        => "text",
                     "label"       => "Användarnamn",
+                    "description" => "Får inte vara längre än 25 bokstäver och kan inte innehålla mellanrum!",
                     "validation" => [
                         "not_empty",
                         "custom_test" => [
-                            "message" => "Användarnamn kan inte vara längre än 25 bokstäver!",
+                            "message" => "Ogiltigt användarnamn!",
                             "test" => function ($value) {
-                                return strlen($value) <= 25;
+                                return !ctype_space($value) && strlen($value) <= 25;
                             }
-                        ]
+                        ],
                     ],
                 ],
 
@@ -92,12 +93,14 @@ class CreateUserForm extends FormModel
             return false;
         }
 
-        // Save to database
-        // $db = $this->di->get("dbqb");
-        // $password = password_hash($password, PASSWORD_DEFAULT);
-        // $db->connect()
-        //    ->insert("User", ["username", "email", "password"])
-        //    ->execute([$username, $email, $password]);
+        $user = new User();
+        $user->setDb($this->di->get("dbqb"));
+        $check = $user->findWhere("username = ?", $username);
+
+        if ($check->id !== null) {
+            return false;
+        }
+
         $user = new User();
         $user->setDb($this->di->get("dbqb"));
         $user->username = $username;

@@ -32,14 +32,15 @@ class UpdateUserForm extends FormModel
                     "type"        => "text",
                     "label"       => "Användarnamn",
                     "value" => $this->user->username,
+                    "description" => "Får inte vara längre än 25 bokstäver och kan inte innehålla mellanrum!",
                     "validation" => [
                         "not_empty",
                         "custom_test" => [
-                            "message" => "Användarnamn kan inte vara längre än 25 bokstäver!",
+                            "message" => "Ogiltigt användarnamn!",
                             "test" => function ($value) {
-                                return strlen($value) <= 25;
+                                return !ctype_space($value) && strlen($value) <= 25;
                             }
-                        ]
+                        ],
                     ],
                 ],
 
@@ -87,6 +88,13 @@ class UpdateUserForm extends FormModel
         $username      = $this->form->value("username");
         $email         = $this->form->value("email");
 
+        $user = new User();
+        $user->setDb($this->di->get("dbqb"));
+        $check = $user->findWhere("username = ?", $username);
+
+        if ($check->id !== null) {
+            return false;
+        }
 
         $user = new User();
         $user->setDb($this->di->get("dbqb"));

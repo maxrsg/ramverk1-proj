@@ -84,6 +84,14 @@ input[type=submit]:hover {
     background-color: #276749;
 }
 
+form {
+    box-shadow: #32325d40 0px 2px 5px -1px, #0000004d 0px 1px 3px -1px;
+}
+
+form fieldset {
+    border: none;
+}
+
 /* Style for question boxes */
 .question-list-wrap {
     width: 100%;
