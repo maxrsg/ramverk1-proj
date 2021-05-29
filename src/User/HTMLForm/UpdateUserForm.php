@@ -13,6 +13,8 @@ class UpdateUserForm extends FormModel
 {
 
     private $user;
+    private $id;
+
     /**
      * Constructor injects with DI container.
      *
@@ -22,6 +24,7 @@ class UpdateUserForm extends FormModel
     {
         parent::__construct($di);
         $this->user = $this->getItemDetails($id);
+        $this->id = $id;
         $this->form->create(
             [
                 "id" => __CLASS__,
@@ -90,9 +93,10 @@ class UpdateUserForm extends FormModel
 
         $user = new User();
         $user->setDb($this->di->get("dbqb"));
+        $oldUsername = $user->findWhere("id = ?", $this->id);
         $check = $user->findWhere("username = ?", $username);
 
-        if ($check->id !== null) {
+        if ( $check->id !== $user->id && $check->id !== null) {
             return false;
         }
 
