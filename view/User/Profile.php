@@ -1,17 +1,19 @@
 <?php
 
-namespace Anax\View;
-use Magm19\User\UserController;
 /**
  * User login view.
  */
+
+namespace Anax\View;
+
+use Magm19\User\UserController;
 
 if ($isLoggedIn) :
     $urlToEdit = url("user/update/" . $userData->id);
     $urlToLogout = url("user/logout");
     $userController = new UserController();
     $gravatar = $userController->getGravatarLink($userData->username, $this->di);
-?>
+    ?>
     <h1>Din profil</h1>
 
     <div class="profile-wrap">

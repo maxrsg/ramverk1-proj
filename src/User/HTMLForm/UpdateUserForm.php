@@ -121,7 +121,7 @@ class UpdateUserForm extends FormModel
      *
      * @return Question
      */
-    public function getItemDetails($id) : object
+    public function getItemDetails($id): object
     {
         $user = new User();
         $user->setDb($this->di->get("dbqb"));

@@ -1,13 +1,12 @@
 <?php
 
-namespace Anax\View;
-use Anax\TextFilter\TextFilter;
-
-
 /**
  * View to display all questions.
  */
 
+ namespace Anax\View;
+
+use Anax\TextFilter\TextFilter;
 
 // Gather incoming variables and use default values if not set
 $items = isset($items) ? $items : null;
@@ -28,7 +27,7 @@ $urlToCreate = url("question/create");
 
 <?php if (!$items) : ?>
     <p>Det finns inga frågor 😢</p>
-<?php
+    <?php
     return;
 endif;
 ?>

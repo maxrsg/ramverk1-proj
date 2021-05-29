@@ -45,7 +45,7 @@ class TagController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function indexAction() : object
+    public function indexAction(): object
     {
         $page = $this->di->get("page");
         $tag = new Tag();
@@ -69,7 +69,7 @@ class TagController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function tagActionGet(int $id) : object
+    public function tagActionGet(int $id): object
     {
         $page = $this->di->get("page");
         $tag = new Tag();

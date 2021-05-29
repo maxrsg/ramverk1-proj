@@ -1,6 +1,7 @@
 <?php
 
 namespace Anax\View;
+
 use Anax\TextFilter\TextFilter;
 use Magm19\User\UserController;
 
@@ -10,7 +11,7 @@ $urlToUser = url("user/view");
 
 if (isset($logoutMessage)) : ?>
     <p><?= $logoutMessage ?></p>
-<?php
+    <?php
 endif; ?>
 <h1 class="heading">Välkommen till: Allt om klockor!</h1>
 

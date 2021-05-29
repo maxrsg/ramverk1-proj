@@ -28,7 +28,7 @@ class HomeController implements ContainerInjectableInterface
      *
      * @return void
      */
-    public function initialize() : void
+    public function initialize(): void
     {
         // Use to initialise member variables.
         $this->db = "active";
@@ -79,14 +79,12 @@ class HomeController implements ContainerInjectableInterface
     private function sortAndSlice($array, $for)
     {
         if ($for === "question") {
-            usort($array, function ($a, $b)
-            {
-                return (($a->created > $b->created) ? -1 : 1);
+            usort($array, function ($objA, $objB) {
+                return (($objA->created > $objB->created) ? -1 : 1);
             });
         } else if ($for === "tag") {
-            usort($array, function ($a, $b)
-            {
-                return (($a->timesUsed > $b->timesUsed) ? -1 : 1);
+            usort($array, function ($objA, $objB) {
+                return (($objA->timesUsed > $objB->timesUsed) ? -1 : 1);
             });
         }
 

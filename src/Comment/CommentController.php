@@ -45,7 +45,7 @@ class CommentController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function createAnswerForm($di, $parentId, $questionId) : string
+    public function createAnswerForm($di, $parentId, $questionId): string
     {
         $commentForm = new CreateAnswerCommentForm($di, $parentId, $questionId);
         $form = $commentForm->getHTML();

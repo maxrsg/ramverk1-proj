@@ -54,7 +54,7 @@ class UserController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function indexActionGet() : object
+    public function indexActionGet(): object
     {
         $page = $this->di->get("page");
         $user = $this->di->session->get("user");
@@ -70,7 +70,7 @@ class UserController implements ContainerInjectableInterface
             $page->add("user/Profile", [
                 "content" => "Profil",
                 "userData" => $userData ?? "",
-                "isLoggedIn"=> $isLoggedIn,
+                "isLoggedIn" => $isLoggedIn,
             ]);
         } else {
             return $this->loginAction();
@@ -92,7 +92,7 @@ class UserController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function loginAction() : object
+    public function loginAction(): object
     {
         $page = $this->di->get("page");
         $form = new UserLoginForm($this->di);
@@ -114,7 +114,7 @@ class UserController implements ContainerInjectableInterface
      *
      * @return object
      */
-    public function logoutAction() : object
+    public function logoutAction(): object
     {
         $this->di->session->delete("user");
         $page = $this->di->get("page");
@@ -138,7 +138,7 @@ class UserController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function createAction() : object
+    public function createAction(): object
     {
         $page = $this->di->get("page");
         $form = new CreateUserForm($this->di);
@@ -164,14 +164,14 @@ class UserController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function updateAction($id) : object
+    public function updateAction($id): object
     {
         $page = $this->di->get("page");
         $form = new UpdateUserForm($this->di, $id);
         $form->check();
         $user = $this->di->session->get("user");
 
-        if(isset($user)) {
+        if (isset($user)) {
             $page->add("anax/v2/article/default", [
                 "content" => $form->getHTML(),
             ]);
@@ -186,7 +186,7 @@ class UserController implements ContainerInjectableInterface
 
 
 
-    public function viewAction($userId) : object
+    public function viewAction($userId): object
     {
         $page = $this->di->get("page");
         $user = new User();
@@ -226,7 +226,7 @@ class UserController implements ContainerInjectableInterface
 
 
 
-    public function getGravatarLink($username, $di, $size = 80) : string
+    public function getGravatarLink($username, $di, $size = 80): string
     {
         $user = new User();
         $user->setDb($di->get("dbqb"));
@@ -241,11 +241,11 @@ class UserController implements ContainerInjectableInterface
     /**
      * @return string of gravatar image
      */
-    private function getGravatar($email, $s = 80, $d = 'mp', $r = 'g')
+    private function getGravatar($email, $size = 80, $default = 'mp', $rating = 'g')
     {
         $url = 'https://www.gravatar.com/avatar/';
         $url .= md5(strtolower(trim($email)));
-        $url .= "?s=$s&d=$d&r=$r";
+        $url .= "?s=$size&d=$default&r=$rating";
         return $url;
     }
 }

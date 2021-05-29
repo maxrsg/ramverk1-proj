@@ -3,7 +3,7 @@
 namespace Magm19\Question\HTMLForm;
 
 use Anax\HTMLForm\FormModel;
-use \Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Magm19\Question\Question;
 use Magm19\Tag\Tag;
 use Magm19\Tag\QuestionTag;
@@ -80,7 +80,7 @@ class CreateForm extends FormModel
      *
      * @return array with key value of all items.
      */
-    protected function getAllTags() : array
+    protected function getAllTags(): array
     {
         $tag = new Tag();
         $tag->setDb($this->di->get("dbqb"));
@@ -129,7 +129,7 @@ class CreateForm extends FormModel
         $tag->setDb($this->di->get("dbqb"));
         $tag->find("id", $tagId);
         $tag->body = $tag->body;
-        $tag->timesUsed+=1;
+        $tag->timesUsed += 1;
         $tag->save();
     }
 
@@ -139,7 +139,7 @@ class CreateForm extends FormModel
      *
      * @return bool true if okey, false if something went wrong.
      */
-    public function callbackSubmit() : bool
+    public function callbackSubmit(): bool
     {
         $question = new Question();
         $question->setDb($this->di->get("dbqb"));

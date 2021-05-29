@@ -1,13 +1,15 @@
 <?php
 
+/**
+ * View a specific question
+ */
+
 namespace Anax\View;
+
 use Magm19\Comment\CommentController;
 use Magm19\User\UserController;
 use Anax\TextFilter\TextFilter;
 
-/**
- * View a specific question
- */
 $commentController = new CommentController();
 $userController = new UserController();
 $filter = new TextFilter();
@@ -19,13 +21,13 @@ $answerCount = 0;
 
 <?php if ($question) :
     $urlToAnswer = url("answer/create/" . $question->id);
-?>
+    ?>
     <h1 class="heading"><?= $question->title ?></h1>
     <div class="big-question-wrap">
         <div class="question-content">
             <p><?= $filter->markdown($question->body) ?></p>
             <div class="tag-wrap">
-                <?php foreach ($tags as $tag):?>
+                <?php foreach ($tags as $tag) :?>
                     <p class="tag">
                         <a href="<?= $urlToTag . "/" . $tag->id ?>"><?= $tag->body ?></a>
                     </p>
@@ -49,7 +51,7 @@ $answerCount = 0;
         </div>
     </div>
     <?php endif;
-        foreach ($questionComments as $comment):?>
+    foreach ($questionComments as $comment) :?>
         <div class="question-comment-wrap" id="<?= "question-" . $question->id . "-comment-" . $comment->id ?>">
             <p><?= $filter->markdown($comment->body) ?></p>
             <div class="comment-footer">
@@ -65,11 +67,11 @@ $answerCount = 0;
     <?php if ($isLoggedIn) : ?>
         <?= $commentFormQuestion ?>
     <?php endif; ?>
-<?php
+    <?php
 endif;
 ?>
 
-<?php if ($answers) : 
+<?php if ($answers) :
     foreach ($answers as $answer) : ?>
     <div class="big-question-wrap" id="<?= "question-" . $question->id . "-answer-" . $answer->id ?>">
         <div class="question-content">
@@ -85,7 +87,7 @@ endif;
             </div>
         </div>
     </div>
-<?php   foreach ($answerComments[$answerCount] as $comment):?>
+        <?php   foreach ($answerComments[$answerCount] as $comment) :?>
             <div class="question-comment-wrap" id="<?= "question-" . $question->id . "-comment-" . $comment->id ?>">
                 <p><?= $filter->markdown($comment->body) ?></p>
                 <div class="comment-footer">
@@ -97,7 +99,7 @@ endif;
                     </div>
                 </div>
             </div>
-<?php   endforeach;
+        <?php   endforeach;
         $answerCount++;
         $commentForm = $commentController->createAnswerForm($this->di, $answer->id, $question->id);
         if ($isLoggedIn) {

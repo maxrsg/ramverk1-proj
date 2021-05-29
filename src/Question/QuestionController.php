@@ -14,6 +14,7 @@ use Magm19\Tag\Tag;
 use Magm19\Comment\Comment;
 use Magm19\Comment\HTMLForm\CreateCommentForm;
 use Magm19\Comment\HTMLForm\CreateAnswerCommentForm;
+
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
 // use Anax\Route\Exception\InternalErrorException;
@@ -39,7 +40,7 @@ class QuestionController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function indexActionGet() : object
+    public function indexActionGet(): object
     {
         $page = $this->di->get("page");
         $question = new Question();
@@ -61,14 +62,14 @@ class QuestionController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function createAction() : object
+    public function createAction(): object
     {
         $page = $this->di->get("page");
         $form = new CreateForm($this->di);
         $form->check();
         $user = $this->di->session->get("user");
 
-        if(isset($user)) {
+        if (isset($user)) {
             $page->add("Question/create", [
                 "form" => $form->getHTML(),
             ]);
@@ -90,7 +91,7 @@ class QuestionController implements ContainerInjectableInterface
      *
      * @return object as a response object
      */
-    public function viewOneAction(int $id) : object
+    public function viewOneAction(int $id): object
     {
         $page = $this->di->get("page");
         $question = new Question();
@@ -98,7 +99,7 @@ class QuestionController implements ContainerInjectableInterface
         $questionTag = new QuestionTag();
         $comment = new Comment();
         $commentFormQuestion = new CreateCommentForm($this->di, $id);
-        $commentFormAnswer= new CreateAnswerCommentForm($this->di, $id, $id);
+        $commentFormAnswer = new CreateAnswerCommentForm($this->di, $id, $id);
         $user = $this->di->session->get("user");
 
         $question->setDb($this->di->get("dbqb"));

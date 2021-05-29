@@ -20,7 +20,7 @@ class CreateCommentForm extends FormModel
      *
      * @param Psr\Container\ContainerInterface $di a service container
      */
-    public function __construct(ContainerInterface $di, $id, $parentIsAnswer=0)
+    public function __construct(ContainerInterface $di, $id, $parentIsAnswer = 0)
     {
         parent::__construct($di);
         $this->id = $id;
@@ -55,7 +55,7 @@ class CreateCommentForm extends FormModel
      *
      * @return bool true if okey, false if something went wrong.
      */
-    public function callbackSubmit() : bool
+    public function callbackSubmit(): bool
     {
         $comment = new Comment();
         $comment->setDb($this->di->get("dbqb"));

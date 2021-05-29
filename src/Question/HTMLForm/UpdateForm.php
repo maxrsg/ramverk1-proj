@@ -65,10 +65,10 @@ class UpdateForm extends FormModel
      * Get details on item to load form with.
      *
      * @param integer $id get details on item with id.
-     * 
+     *
      * @return Question
      */
-    public function getItemDetails($id) : object
+    public function getItemDetails($id): object
     {
         $question = new Question();
         $question->setDb($this->di->get("dbqb"));
@@ -84,7 +84,7 @@ class UpdateForm extends FormModel
      *
      * @return bool true if okey, false if something went wrong.
      */
-    public function callbackSubmit() : bool
+    public function callbackSubmit(): bool
     {
         $question = new Question();
         $question->setDb($this->di->get("dbqb"));
