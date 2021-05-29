@@ -54,6 +54,16 @@ a:visited:hover {
     font-family: sans-serif;
 }
 
+.region-header-col-1 .site-logo-text a{
+    text-shadow: none;
+    font-family: sans-serif;
+    transition: none;
+}
+
+.region-header-col-1 .site-logo-text a:hover{
+    color: #276749;
+}
+
 .outer-wrap-main {
     margin-top: 40px;
     min-height: 700px;

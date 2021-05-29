@@ -110,20 +110,22 @@ class UserController implements ContainerInjectableInterface
 
 
     /**
-     * Logs out user and renders home page
+     * Logs out user and renders login form
      *
-     * @return object
      */
     public function logoutAction(): object
     {
         $this->di->session->delete("user");
         $page = $this->di->get("page");
-        $page->add("Page/Home", [
-            "logoutMessage" => "You have been logged out!",
+        $form = new UserLoginForm($this->di);
+        $form->check();
+
+        $page->add("User/Login", [
+            "form" => $form->getHTML(),
         ]);
 
         return $page->render([
-            "title" => "Du har loggats ut",
+            "title" => "Logga in",
         ]);
     }
 

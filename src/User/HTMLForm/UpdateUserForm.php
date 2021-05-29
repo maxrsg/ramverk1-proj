@@ -109,7 +109,7 @@ class UpdateUserForm extends FormModel
     public function callbackSuccess()
     {
         $this->di->session->delete("user");
-        $this->di->get("response")->redirect("user")->send();
+        $this->di->get("response")->redirect("user/login")->send();
     }
 
 

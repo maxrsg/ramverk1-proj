@@ -28,15 +28,11 @@ class UserLoginForm extends FormModel
                 "user" => [
                     "type"        => "text",
                     "label"       => "Användarnamn"
-                    //"description" => "Here you can place a description.",
-                    //"placeholder" => "Here is a placeholder",
                 ],
 
                 "password" => [
                     "type"        => "password",
                     "label"       => "Lösenord"
-                    //"description" => "Here you can place a description.",
-                    //"placeholder" => "Here is a placeholder",
                 ],
 
                 "submit" => [

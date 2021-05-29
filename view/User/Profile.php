@@ -11,6 +11,7 @@ use Magm19\User\UserController;
 if ($isLoggedIn) :
     $urlToEdit = url("user/update/" . $userData->id);
     $urlToLogout = url("user/logout");
+    $urlToView = url("user/view/" .$userData->id);
     $userController = new UserController();
     $gravatar = $userController->getGravatarLink($userData->username, $this->di);
     ?>
@@ -26,6 +27,9 @@ if ($isLoggedIn) :
         <img src="<?= $gravatar ?>" alt="">
     </div>
 
+    <p>
+        <a href="<?= $urlToView ?>">Se din profil som den visas för andra</a>
+    </p>
 
     <p>
         <a href="<?= $urlToEdit ?>">Uppdatera din profil</a>
