@@ -47,7 +47,7 @@ if (isset($username)) :
             <?php foreach ($comments as $comment) : ?>
                 <div class="question-title-wrap">
                     <h4 class="question-title-h4">
-                        <a href="<?= $urlToView . "/" . $comment->questionId . "#question-" . $comment->questionId . "-answer-" . $comment->id ?>"><?= $comment->body ?></a>
+                        <a href="<?= $urlToView . "/" . $comment->questionId . "#question-" . $comment->questionId . "-comment-" . $comment->id ?>"><?= $comment->body ?></a>
                     </h4>
                 </div>
             <?php endforeach; ?>
