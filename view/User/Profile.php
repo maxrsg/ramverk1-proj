@@ -12,6 +12,7 @@ if ($isLoggedIn) :
     $urlToEdit = url("user/update/" . $userData->id);
     $urlToLogout = url("user/logout");
     $urlToView = url("user/view/" .$userData->id);
+    $urlToDelete = url("question/delete");
     $userController = new UserController();
     $gravatar = $userController->getGravatarLink($userData->username, $this->di);
     ?>
@@ -38,5 +39,9 @@ if ($isLoggedIn) :
     <p>
         <a href="<?= $urlToLogout ?>">Logga ut</a>
     </p>
+
+    <div class="delete-wrap">
+        <a href="<?=  $urlToDelete ?>">Radera frågor</a>
+    </div>
 
 <?php endif; ?>

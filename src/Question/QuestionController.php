@@ -5,15 +5,14 @@ namespace Magm19\Question;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 use Magm19\Question\HTMLForm\CreateForm;
-use Magm19\Question\HTMLForm\EditForm;
 use Magm19\Question\HTMLForm\DeleteForm;
-use Magm19\Question\HTMLForm\UpdateForm;
 use Magm19\Answer\Answer;
 use Magm19\Tag\QuestionTag;
 use Magm19\Tag\Tag;
 use Magm19\Comment\Comment;
 use Magm19\Comment\HTMLForm\CreateCommentForm;
 use Magm19\Comment\HTMLForm\CreateAnswerCommentForm;
+use Magm19\User\UserController;
 
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
@@ -79,6 +78,33 @@ class QuestionController implements ContainerInjectableInterface
 
         return $page->render([
             "title" => "Skapa ny fråga",
+        ]);
+    }
+
+
+
+    public function deleteAction(): object
+    {
+        $page = $this->di->get("page");
+        $user = $this->di->session->get("user");
+        $isLoggedIn = isset($user);
+
+        if ($user) {
+            $deleteForm = new DeleteForm($this->di, $user);
+            $deleteForm->check();
+        }
+
+        if ($isLoggedIn) {
+            $page->add("anax/v2/article/default", [
+                "content" => $deleteForm->getHTML(),
+            ]);
+        } else {
+            $userController = new UserController();
+            return $userController->loginAction();
+        }
+
+        return $page->render([
+            "title" => "Radera fråga"
         ]);
     }
 

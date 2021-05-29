@@ -8,6 +8,7 @@ use Magm19\User\HTMLForm\UserLoginForm;
 use Magm19\User\HTMLForm\CreateUserForm;
 use Magm19\User\HTMLForm\UpdateUserForm;
 use Magm19\Question\Question;
+use Magm19\Question\HTMLForm\DeleteForm;
 use Magm19\Answer\Answer;
 use Magm19\Comment\Comment;
 
@@ -60,7 +61,7 @@ class UserController implements ContainerInjectableInterface
         $user = $this->di->session->get("user");
         $isLoggedIn = isset($user);
 
-        if ($this->di->session->get("user")) {
+        if ($user) {
             $user = new User();
             $user->setDb($this->di->get("dbqb"));
             $userData = $user->getDataFromUsername($this->di->session->get("user"));
