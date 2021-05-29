@@ -18,7 +18,7 @@ endif; ?>
     Forumet där du kan ställa frågor om allt som har med klockor att göra! Här på startsidan kan du se några av
     de senaste frågorna, vem som ställde dem samt de populäraste taggarna.
 </p>
-<?php if (isset($questions) && isset($tags)) : ?>
+<?php if ($questions && $tags) : ?>
     <div class="home-main-wrap">
         <div class="home-all-question">
             <h2> Senaste frågorna:</h2>
