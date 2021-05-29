@@ -76,7 +76,6 @@ class DeleteForm extends FormModel
         $question = new Question();
         $question->setDb($this->di->get("dbqb"));
         $question->find("id", $this->form->value("select"));
-        var_dump($this->form->value("select"));
         $question->delete();
         return false;
     }

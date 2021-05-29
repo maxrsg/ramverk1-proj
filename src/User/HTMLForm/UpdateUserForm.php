@@ -93,10 +93,9 @@ class UpdateUserForm extends FormModel
 
         $user = new User();
         $user->setDb($this->di->get("dbqb"));
-        $oldUsername = $user->findWhere("id = ?", $this->id);
         $check = $user->findWhere("username = ?", $username);
 
-        if ( $check->id !== $user->id && $check->id !== null) {
+        if ($check->id !== $this->id && $check->id !== null) {
             return false;
         }
 
