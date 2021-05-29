@@ -24,6 +24,17 @@ p {
     margin-bottom: 0.5rem;
 }
 
+a {
+    color: #38A169;
+    text-decoration: none;
+}
+
+a:visited,
+a:hover {
+    color: #22543D;
+}
+
+
 .heading {
     margin-bottom: 1rem;
     margin-top: 1rem;
@@ -282,4 +293,44 @@ input[type=submit]:hover {
 
 .inner-wrap-footer {
     background-color: #fff;
+}
+
+/* home */
+.home-main-wrap {
+    width: 100%;
+}
+
+.home-all-questions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.home-question-wrap {
+    width: 100%;
+    display: flex;
+}
+
+.home-question-wrap .question-wrap {
+    width: 65%;
+    margin-right: 5%;
+}
+
+.home-user-wrap {
+    width: 30%;
+}
+
+.home-user-wrap .userbox-wrap {
+    width: 100%;
+    box-shadow: #32325d40 0px 2px 5px -1px, #0000004d 0px 1px 3px -1px;
+    border: none;
+    height: 80px;
+}
+
+.home-user-wrap .userbox-wrap p {
+    font-size: 18px;
+}
+
+.home-all-tags {
+    width: 100%;
 }

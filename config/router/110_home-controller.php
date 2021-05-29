@@ -6,7 +6,7 @@ return [
     "routes" => [
         [
             "info" => "Hem",
-            "mount" => "",
+            "mount" => "home",
             "handler" => "\Magm19\Home\HomeController",
         ],
     ]
