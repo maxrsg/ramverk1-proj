@@ -29,11 +29,17 @@ a {
     text-decoration: none;
 }
 
-a:visited,
 a:hover {
-    color: #22543D;
+    color: #276749;
 }
 
+a:visited {
+    color: #38A169;
+}
+
+a:visited:hover {
+    color: #276749;
+}
 
 .heading {
     margin-bottom: 1rem;
@@ -333,4 +339,22 @@ input[type=submit]:hover {
 
 .home-all-tags {
     width: 100%;
+}
+
+/* about page */
+.wrap-sidebar .block {
+    box-shadow: #32325d40 0px 2px 5px -1px, #0000004d 0px 1px 3px -1px;
+}
+
+
+.wrap-sidebar .block h4 {
+    background-color: #38A169 !important;
+    background-image: none !important;
+    color: #fff;
+    border: none;
+    padding-left: 1rem;
+}
+
+.wrap-sidebar .block p{
+    padding: 1rem;
 }

@@ -18,11 +18,5 @@ views:
 ---
 Om
 =========================
+Hej! Mitt namn är Max Gotenstam och jag har skapat denna sidan som slutprojekt i kursen [ramverk1](https://dbwebb.se/kurser/ramverk1-v2) på Blekinge Tekniska Högskola.
 
-Detta innehåll är skrivet i markdown och du hittar innehållet i filen `content/om.md`.
-
-Skriv några kloka ord om kursen?
-
-Lägg till en representativ bild för kursen, enligt ditt egna val.
-
-[FIGURE src=image/car.png?w=300 caption="En fin bil som demobild."]

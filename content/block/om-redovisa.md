@@ -1,3 +1,3 @@
-#### Redovisa på GitHub
+#### Sidan finns på GitHub
 
-Skriv något kort om ditt redovisa-repo och länka till [repot för me/redovisa på GitHub](XXX).
+Denna webbplatsen finns tillgänglig på [GitHub](https://github.com/maxrsg/ramverk1-proj).
