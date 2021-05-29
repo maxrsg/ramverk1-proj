@@ -13,6 +13,7 @@ $userController = new UserController();
 $filter = new TextFilter();
 $urlToView = url("question");
 $urlToUser = url("user/view");
+$urlToTag = url("tags/tag");
 $answerCount = 0;
 ?>
 
@@ -26,7 +27,7 @@ $answerCount = 0;
             <div class="tag-wrap">
                 <?php foreach ($tags as $tag):?>
                     <p class="tag">
-                        <a href="tags/tag/<?= $tag->id ?>"><?= $tag->body ?></a>
+                        <a href="<?= $urlToTag . "/" . $tag->id ?>"><?= $tag->body ?></a>
                     </p>
                 <?php endforeach; ?>
             </div>
@@ -49,7 +50,7 @@ $answerCount = 0;
     </div>
     <?php endif;
         foreach ($questionComments as $comment):?>
-        <div class="question-comment-wrap">
+        <div class="question-comment-wrap" id="<?= "question-" . $question->id . "-comment-" . $comment->id ?>">
             <p><?= $filter->markdown($comment->body) ?></p>
             <div class="comment-footer">
                 <div class="comment-userbox-wrap userbox-wrap">
@@ -85,7 +86,7 @@ endif;
         </div>
     </div>
 <?php   foreach ($answerComments[$answerCount] as $comment):?>
-            <div class="question-comment-wrap">
+            <div class="question-comment-wrap" id="<?= "question-" . $question->id . "-comment-" . $comment->id ?>">
                 <p><?= $filter->markdown($comment->body) ?></p>
                 <div class="comment-footer">
                     <div class="comment-userbox-wrap userbox-wrap">
@@ -98,7 +99,7 @@ endif;
             </div>
 <?php   endforeach;
         $answerCount++;
-        $commentForm = $commentController->createAnswerForm($this->di, $answer->id);
+        $commentForm = $commentController->createAnswerForm($this->di, $answer->id, $question->id);
         if ($isLoggedIn) {
             echo $commentForm;
         }

@@ -63,6 +63,7 @@ class CreateCommentForm extends FormModel
         $comment->user = $this->di->session->get("user");
         $comment->parentId = $this->id;
         $comment->parentIsAnswer = $this->parentIsAnswer;
+        $comment->questionId = $this->id;
         $comment->created = date("Y-m-d H:i:s");
         $comment->save();
         return true;

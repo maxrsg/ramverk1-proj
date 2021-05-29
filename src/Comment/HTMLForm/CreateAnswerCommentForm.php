@@ -5,6 +5,7 @@ namespace Magm19\Comment\HTMLForm;
 use Anax\HTMLForm\FormModel;
 use Psr\Container\ContainerInterface;
 use Magm19\Comment\Comment;
+use Magm19\Question\Question;
 
 /**
  * Form to create an item.
@@ -13,16 +14,18 @@ class CreateAnswerCommentForm extends FormModel
 {
 
     private $id;
+    private $questionId;
 
     /**
      * Constructor injects with DI container.
      *
      * @param Psr\Container\ContainerInterface $di a service container
      */
-    public function __construct(ContainerInterface $di, $id)
+    public function __construct(ContainerInterface $di, $id, $questionId)
     {
         parent::__construct($di);
         $this->id = $id;
+        $this->questionId = $questionId;
         $this->form->create(
             [
                 "id" => __CLASS__,
@@ -31,7 +34,11 @@ class CreateAnswerCommentForm extends FormModel
             [
                 "parentId" => [
                     "type" => "hidden",
-                    "value" => $id
+                    "value" => $id,
+                ],
+                "questionId" => [
+                    "type" => "hidden",
+                    "value" => $questionId,
                 ],
                 "body" => [
                     "type" => "textarea",
@@ -64,6 +71,7 @@ class CreateAnswerCommentForm extends FormModel
         $comment->body = $this->form->value("body");
         $comment->user = $this->di->session->get("user");
         $comment->parentId = $this->form->value("parentId");
+        $comment->questionId = $this->form->value("questionId");
         $comment->parentIsAnswer = 1;
         $comment->created = date("Y-m-d H:i:s");
         $comment->save();

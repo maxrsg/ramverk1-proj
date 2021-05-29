@@ -77,6 +77,7 @@ CREATE TABLE Comment (
     "user" TEXT NOT NULL,
     "parentId" INTEGER NOT NULL,
     "parentIsAnswer" BOOLEAN NOT NULL,
+    "questionId" INTEGER NOT NULL,
     "created" TIMESTAMP,
     "updated" DATETIME
 );

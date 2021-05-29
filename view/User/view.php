@@ -1,16 +1,18 @@
 <?php
 
 namespace Anax\View;
+use Magm19\User\UserController;
 
 /**
  * User login view.
  */
 
-// Create urls for navigation
+$userController = new UserController();
 $urlToView = url("question/view-one");
 
 if(isset($username)) :
     ?><h1>Användare: <?= $username ?></h1>
+    <img src="<?= $userController->getGravatarLink($username, $this->di, 80); ?>">
     <p>Medlem sedan: <?= $created ?></p>
     <div class="user-questions">
         <h3>Frågor: </h3>
@@ -28,7 +30,7 @@ if(isset($username)) :
         <?php foreach ($answers as $answer): ?>
             <div class="question-title-wrap">
                 <h4 class="question-title-h4">
-                    <a href="<?= $urlToView . "/" . $question->id . "#question-" . $question->id . "-answer-" . $answer->id ?>"><?= $answer->body ?></a>
+                    <a href="<?= $urlToView . "/" . $answer->questionId . "#question-" . $answer->questionId . "-answer-" . $answer->id ?>"><?= $answer->body ?></a>
                 </h4>
             </div>
         <?php endforeach; ?>
@@ -39,7 +41,7 @@ if(isset($username)) :
         <?php foreach ($comments as $comment): ?>
             <div class="question-title-wrap">
                 <h4 class="question-title-h4">
-                    <a href="<?= $urlToView . "/" . $comment->id ?>"><?= $comment->body ?></a>
+                    <a href="<?= $urlToView . "/" . $comment->questionId . "#question-" . $comment->questionId . "-answer-" . $comment->id ?>"><?= $comment->body ?></a>
                 </h4>
             </div>
         <?php endforeach; ?>

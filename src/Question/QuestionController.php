@@ -98,7 +98,7 @@ class QuestionController implements ContainerInjectableInterface
         $questionTag = new QuestionTag();
         $comment = new Comment();
         $commentFormQuestion = new CreateCommentForm($this->di, $id);
-        $commentFormAnswer= new CreateAnswerCommentForm($this->di, $id);
+        $commentFormAnswer= new CreateAnswerCommentForm($this->di, $id, $id);
         $user = $this->di->session->get("user");
 
         $question->setDb($this->di->get("dbqb"));

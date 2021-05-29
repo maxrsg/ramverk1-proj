@@ -26,6 +26,7 @@ class Comment extends ActiveRecordModel
     public $user;
     public $parentId;
     public $parentIsAnswer;
+    public $questionId;
     public $created;
     public $updated;
 }
