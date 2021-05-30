@@ -58,8 +58,8 @@ class HomeController implements ContainerInjectableInterface
         $questions = $question->findAll();
         $tags = $tag->findAll();
 
-        $questions = $this->sortAndSlice($questions, "question");
-        $tags = $this->sortAndSlice($tags, "tag");
+        $questions = $this->sortAndSlice($questions, "question", 3);
+        $tags = $this->sortAndSlice($tags, "tag", 5);
 
         $page->add("Page/Home", [
             "questions" => $questions,
@@ -76,7 +76,7 @@ class HomeController implements ContainerInjectableInterface
      * after a specific property and then slices it.
      * @return array containing five first elements after sort
      */
-    private function sortAndSlice($array, $for)
+    private function sortAndSlice($array, $for, $amount)
     {
         if ($for === "question") {
             usort($array, function ($objA, $objB) {
@@ -88,6 +88,6 @@ class HomeController implements ContainerInjectableInterface
             });
         }
 
-        return array_slice($array, 0, 5);
+        return array_slice($array, 0, $amount);
     }
 }
